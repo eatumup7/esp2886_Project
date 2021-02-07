@@ -50,7 +50,20 @@ const char index_html[] PROGMEM = R"rawliteral(
   <h2>ESP Web Server</h2>
   %BUTTONPLACEHOLDER%
 <script>function toggleCheckbox(element) {
+
+  <!--  Inserted bits attempting to set all states to off -->	
+	if(element.unchecked)
+	{
   var xhr = new XMLHttpRequest();
+		for (i = 1; i<=NUM_RELAYS; i++) {
+		document.getElementById(i).checked = true;
+		xhr.open("GET", "/update?relay="+element.id+"&state=0", true); }
+		xhr.send();
+		}
+	}
+  <!--------------------------- -->
+  
+  
   if(element.checked){ xhr.open("GET", "/update?relay="+element.id+"&state=1", true); }
   else { xhr.open("GET", "/update?relay="+element.id+"&state=0", true); }
   xhr.send();
